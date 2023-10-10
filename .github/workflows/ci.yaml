@@ -54,4 +54,10 @@ jobs:
 
     - name: Deploy Helm Chart to Kind
       run: |
-        helm upgrade --install kobo . --namespace default --wait
+        helm upgrade --install kobo . \
+        --set kpi.env.secret.DATABASE_URL="postgres://postgres:password@postgres-postgresql:5432/postgres" \
+        --set postgresql.enabled="true" \
+        --set postgresql.auth.postgresPassword="password" \
+        --set postgresql.primary.persistence.size="1Gi" \
+        --set kobotoolbox.kobocatDatabase="postgis://postgres:password@postgres-postgresql:5432/postgres" \
+        --namespace default --wait
