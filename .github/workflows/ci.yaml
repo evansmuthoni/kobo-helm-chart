@@ -54,6 +54,10 @@ jobs:
 
     - name: Load Docker Image
       run: |
+        docker pull docker.io/bitnami/postgresql:15.4.0-debian-11-r45
+        docker pull kobotoolbox/kobocat:2.023.37a
+        docker pull kobotoolbox/kpi:2.023.37f
+
         kind load docker-image docker.io/bitnami/postgresql:15.4.0-debian-11-r45 --name my-kind-cluster
         kind load docker-image kobotoolbox/kobocat:2.023.37a --name my-kind-cluster
         kind load docker-image kobotoolbox/kpi:2.023.37f --name my-kind-cluster
