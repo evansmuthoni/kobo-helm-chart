@@ -54,9 +54,9 @@ jobs:
 
     - name: Load Docker Image
       run: |
-        kind load docker.io/bitnami/postgresql:15.4.0-debian-11-r45 --name my-kind-cluster
-        kind load kobotoolbox/kobocat:2.023.37a --name my-kind-cluster
-        kind load kobotoolbox/kpi:2.023.37f --name my-kind-cluster
+        kind load docker.io/bitnami/postgresql:15.4.0-debian-11-r45
+        kind load kobotoolbox/kobocat:2.023.37a
+        kind load kobotoolbox/kpi:2.023.37f
 
     - name: Deploy Helm Chart to Kind
       run: |
