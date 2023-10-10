@@ -40,6 +40,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
     - name: Install Kind
       run: |
         curl -Lo kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
