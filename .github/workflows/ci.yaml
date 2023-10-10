@@ -63,4 +63,5 @@ jobs:
         --set kpi.autoscaling.enabled="false" \
         --set kobocat.autoscaling.enabled="false" \
         --set kpi.workerLowPriority.autoscaling.enabled="false" \
+        --set kpi.worker.autoscaling.enabled="false" \
         --namespace default --wait
