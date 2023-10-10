@@ -52,6 +52,12 @@ jobs:
     - name: Create Kind Cluster
       run: kind create cluster --name my-kind-cluster
 
+    - name: Load Docker Image
+      run: |
+        kind load docker.io/bitnami/postgresql:15.4.0-debian-11-r45 --name my-kind-cluster
+        kind load kobotoolbox/kobocat:2.023.37a --name my-kind-cluster
+        kind load kobotoolbox/kpi:2.023.37f --name my-kind-cluster
+
     - name: Deploy Helm Chart to Kind
       run: |
         helm upgrade --install kobo . \
@@ -64,4 +70,4 @@ jobs:
         --set kobocat.autoscaling.enabled="false" \
         --set kpi.workerLowPriority.autoscaling.enabled="false" \
         --set kpi.worker.autoscaling.enabled="false" \
-        --namespace default --wait
+        --namespace default --wait --timeout=1m --debug
