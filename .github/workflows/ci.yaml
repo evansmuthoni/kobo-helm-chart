@@ -60,4 +60,5 @@ jobs:
         --set postgresql.auth.postgresPassword="password" \
         --set postgresql.primary.persistence.size="1Gi" \
         --set kobotoolbox.kobocatDatabase="postgis://postgres:password@postgres-postgresql:5432/postgres" \
+        --set kpi.autoscaling.enabled="false" \
         --namespace default --wait
