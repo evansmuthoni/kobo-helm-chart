@@ -66,12 +66,24 @@ jobs:
       run: |
         helm upgrade --install kobo . \
         --set kpi.env.secret.DATABASE_URL="postgres://postgres:password@postgres-postgresql:5432/postgres" \
+        --set kpi.env.secret.CACHE_URL="redis://kobo-redis-replicas:6379" \
+        --set kpi.env.secret.KPI_BROKER_URL="redis://kobo-redis-master:6379" \
+        --set kobocat.env.secret.KPI_BROKER_URL="redis://kobo-redis-master:6379" \
         --set postgresql.enabled="true" \
         --set postgresql.auth.postgresPassword="password" \
         --set postgresql.primary.persistence.size="1Gi" \
         --set kobotoolbox.kobocatDatabase="postgis://postgres:password@postgres-postgresql:5432/postgres" \
         --set kpi.autoscaling.enabled="false" \
         --set kobocat.autoscaling.enabled="false" \
+        --set kobocat.worker.replicaCount=0 \
+        --set kpi.worker.replicaCount=0 \
+        --set kpi.workerLowPriority.replicaCount=0 \
         --set kpi.workerLowPriority.autoscaling.enabled="false" \
         --set kpi.worker.autoscaling.enabled="false" \
+        --set redis.enabled="true" \
+        --set redis.replica.replicaCount=1 \
+        --set redis.replica.persistence.size=1Gi \
+        --set redis.master.persistence.size=1Gi \
+        --set enketo.env.secret.ENKETO_REDIS_CACHE_URL="redis://kobo-redis-master:6379" \
+        --set enketo.env.secret.ENKETO_REDIS_MAIN_URL="redis://kobo-redis-replicas:6379" \
         --namespace default --wait --timeout=5m --debug
