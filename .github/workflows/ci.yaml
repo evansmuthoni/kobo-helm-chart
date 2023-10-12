@@ -88,4 +88,14 @@ jobs:
         --set redis.replica.replicaCount=1 \
         --set redis.replica.persistence.size=1Gi \
         --set redis.master.persistence.size=1Gi \
-        --namespace default --wait --timeout=5m --debug
+        --namespace default
+    
+    - name: Check All Pods are running
+      run: |
+        while [[ $(kubectl get pods --field-selector=status.phase=Running --no-headers | wc -l) -lt $(kubectl get pods --no-headers | wc -l) ]]; do
+          kubectl get po
+          sleep 10
+        done
+
+        echo "All pods are up and running."
+
