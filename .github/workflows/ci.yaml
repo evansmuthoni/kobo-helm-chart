@@ -35,3 +35,28 @@ jobs:
       run: |
         helm package -d chart .
         mv chart/kobo*.tgz chart/kobo.tgz 
+
+  dry-run:
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Kind
+      run: |
+        curl -Lo kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+        chmod +x kind
+        sudo mv kind /usr/local/bin/
+
+    - name: Create Kind Cluster
+      run: kind create cluster --name my-kind-cluster
+
+    - name: Create Custom my-values.yaml
+      run: |
+        echo "customKey1: customValue1" > my-values.yaml
+        echo "customKey2: customValue2" >> my-values.yaml
+        # Add more custom values as needed
+
+    - name: Deploy Helm Chart to Kind
+      run: |
+        cd chart
+        helm upgrade --install kobo . --namespace default --wait
