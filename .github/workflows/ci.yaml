@@ -10,7 +10,7 @@ on:
       - main
       - develop
 jobs:
-  build-and-publish:
+  test-package-and-publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,25 +31,15 @@ jobs:
         helm lint .
 
     - name: Install Kind
-      # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
         curl -Lo kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
         chmod +x kind
         sudo mv kind /usr/local/bin/
 
     - name: Create Kind Cluster
-      # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: kind create cluster --name my-kind-cluster
 
-    - name: Create Custom my-values.yaml
-      # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: |
-        echo "customKey1: customValue1" > my-values.yaml
-        echo "customKey2: customValue2" >> my-values.yaml
-        # Add more custom values as needed
-
     - name: Deploy Helm Chart to Kind
-      # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
         helm upgrade --install kobo . \
           --set kpi.workerLowPriority.autoscaling.enabled=false \
