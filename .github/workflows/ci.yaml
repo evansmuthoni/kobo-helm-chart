@@ -31,6 +31,7 @@ jobs:
         helm lint .
 
     - name: Package Chart
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
         helm package -d chart .
         mv chart/kobo*.tgz chart/kobo.tgz 
