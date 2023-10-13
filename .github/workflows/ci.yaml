@@ -51,7 +51,13 @@ jobs:
     - name: Deploy Helm Chart to Kind
       # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
-        helm upgrade --install kobo . --dry-run --namespace default --wait
+        helm upgrade --install kobo . \
+          --set .Values.kpi.workerLowPriority.autoscaling.enabled=false \
+          --set .Values.kpi.worker.autoscaling.enabled=false \
+          --set .Values.kpi.autoscaling.enabled=false \
+          --set .Values.kobocat.worker.autoscaling.enabled=false \
+          --set .Values.kobocat.autoscaling.enabled=false \
+          --dry-run --namespace default --wait
 
     - name: Package Chart
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
