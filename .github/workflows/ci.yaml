@@ -10,7 +10,7 @@ on:
       - main
       - develop
 jobs:
-  build-and-publish:
+  test-package-and-publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,8 +30,27 @@ jobs:
       run: |
         helm lint .
 
+    - name: Install Kind
+      run: |
+        curl -Lo kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+        chmod +x kind
+        sudo mv kind /usr/local/bin/
+
+    - name: Create Kind Cluster
+      run: kind create cluster --name my-kind-cluster
+
+    - name: Deploy Helm Chart to Kind
+      run: |
+        helm upgrade --install kobo . \
+          --set kpi.workerLowPriority.autoscaling.enabled=false \
+          --set kpi.worker.autoscaling.enabled=false \
+          --set kpi.autoscaling.enabled=false \
+          --set kobocat.worker.autoscaling.enabled=false \
+          --set kobocat.autoscaling.enabled=false \
+          --dry-run --namespace default --wait
+
     - name: Package Chart
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
         helm package -d chart .
         mv chart/kobo*.tgz chart/kobo.tgz 
-   
