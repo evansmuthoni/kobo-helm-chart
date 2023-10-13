@@ -3,7 +3,7 @@ kobotoolbox:
   djangoSecret: "change_me_please"
   mongoName: "formhub"
   # mongoDatabase: "mongodb://root:password@mongodb:27017"
-  # kobocatDatabase: "postgis://postgres:password@postgres-postgresql:5432/postgres"
+  kobocatDatabase: "postgis://postgres:password@postgres-postgresql:5432/postgres"
   # Set to use for all redis needs (cache, broker, etc) redis connection string without db number.
   # Unset to specify each redis usage seperately
   # Redis default DB numbers
@@ -85,8 +85,7 @@ kpi:
       # -- KoBoCAT Bucket name
       # KOBOCAT_AWS_STORAGE_BUCKET_NAME: ""
     secret:
-      {}
-      # DATABASE_URL: "postgres://postgres:password@postgres-postgresql:5432/postgres"
+      DATABASE_URL: "postgres://postgres:password@postgres-postgresql:5432/postgres"
       # KPI_BROKER_URL: "redis://localhost:6379/2"
       # CACHE_URL: "redis://localhost:6379/4"
       # AWS_ACCESS_KEY_ID: ""

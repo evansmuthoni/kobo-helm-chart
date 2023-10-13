@@ -51,7 +51,7 @@ jobs:
     - name: Deploy Helm Chart to Kind
       # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
-        helm upgrade --install kobo .  --dry-run --namespace default --wait
+        helm upgrade --install kobo . --dry-run --namespace default --wait
 
     - name: Package Chart
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
